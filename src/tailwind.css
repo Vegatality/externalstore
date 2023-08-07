@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+
+  /* p {
+    @apply text-red-600;
+  }
+  ul {
+    @apply list-inside list-disc marker:text-sky-500;
+  }
+  a {
+    @apply text-sky-500 hover:text-sky-600;
+  } */
+}
+
+@layer components {
+  .f {
+    @apply flex;
+  }
+
+  .f-ic-jc {
+    @apply flex items-center justify-center;
+  }
+
+  .f-fc {
+    @apply flex flex-col;
+  }
+
+  .f-fc-jc {
+    @apply f-fc justify-center;
+  }
+
+  .f-fc-ic {
+    @apply f-fc items-center;
+  }
+
+  .f-fc-ic-jc {
+    @apply f-fc items-center justify-center;
+  }
+
+  .f-fr {
+    @apply flex flex-row;
+  }
+
+  .f-fr-ic {
+    @apply f-fr items-center;
+  }
+
+  .f-fr-jc {
+    @apply f-fr justify-center;
+  }
+
+  .f-fr-ic-jc {
+    @apply f-fr items-center justify-center;
+  }
+
+  .f-fr-ic-jb {
+    @apply f-fr-ic justify-between;
+  }
+
+  .f-fr-ic-js {
+    @apply f-fr-ic scale-110 justify-start;
+  }
+}
+
+body {
+  margin: 0;
+}
+
+.study {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 5px;
+  box-shadow: rgb(224, 224, 224) 0px 2px 4px 0px;
+
+  /* transition: property duration function delay */
+
+  /* transition-property: all;
+    transition-delay: 500ms;
+    transition-duration: 500ms;
+    transition-timing-function: ease-in; */
+  transition: all 500ms linear 500ms;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}
+
+/* css 변수 잠깐 공부 */
+/* 기초 변수 선언 방법*/
+/* .root {
+  --primary: #BA55D3;
+} */
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/* 만일 CSS 변수의 수가 너무 많아, 특정 변수가 정의 됐는지 안됐는지 모를떄, 변수값이 없다면, var() 를 🌟중첩함으로써 여러 개의 대체 변수를 정의할 수 있다. */
+
+.newCustomer {
+  /* 🌟--new-font-color가 없으면 orange를 사용🌟 */
+  color: var(--new-font-color, orange);
+}
+
+.oldCustomer {
+  /* --old-font-color가 없으면 var(--normal-font-color, blue)를 사용한다 */
+  /* 그런데 또 --normal-font-color가 없으면 blue를 사용한다 */
+  color: var(--old-font-color, var(--normal-font-color, blue));
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* 변수의 상속 범위 */
+/* <div class='oneone'>
+    <div class='twotwo'></div>
+    <div class='threethree'></div>
+  </div>
+*/
+.oneone {
+  --test: 10px;
+  font-size: var(--test); /* 10px */
+}
+.twotwo {
+  --test: 2rem;
+  font-size: var(--test); /* 2rem */
+}
+
+.threethree {
+  font-size: var(
+    --test
+  ); /* 10px */ /* 상위 태그 div에서 .one 클래스를 가지고 있음. -> .one에서 변수를 상속 받음 */
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+/* 🚨 변수로 단위값 사용 주의사항 🚨 */
+.blockblock {
+  --p: 33;
+  width: var(--p) vw;
+  height: var(--p) vh;
+}
+
+/*
+.blockblock {
+  width: 33 vw; ☢️ 띄어쓰기가 적용되어 에러를 발생시킨다 ☢️
+  height: 33 vh;
+}
+*/
+/* 🌟🌟따라서 이 경우 calc() 함수를 사용해야 원하는 의도를 이행할 수 있다.🌟🌟 */
+.blockblock {
+  --p: 33;
+  width: calc(var(--p) * 1vw);
+  height: calc(var(--p) * 1vh);
+}
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* 🌟단순히 16진수 색상 코드(#fff)를 변수에 저장하는 것을 넘어서, rgb 및 alpha(투명도)를 변수로 세밀하게 조정 할 수도 있다. */
+/* :root {
+  --color: 240, 240, 240;
+  --alpha: 0.8;
+} */
+
+/* div {
+  background-color: rgba(var(--color), var(--alpha));  // 🌟rgba(240, 240, 240, 80%)🌟
+} */
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* background-image의 url을 변수화 */
+/* 아래와 같이 이미지 경로만을 변수에 설정하고 속성 부분에서 url(var(--img)) 식으로 호출하는 방법은 문법적으로 지원하지 않는다. */
+/* 🚨 요소의 배경 이미지 경로를 변수로 처리하여야 할때 주의해야할 점이 있다. 🚨 */
+/* :root {
+	--img: "img/sample.jpg";
+}
+
+div {
+    background: url(var(--img)); // ☢️ ERROR - 동작되지 않음
+} */
+/* 🌟 따라서 url(이미지경로) 자체를 변수화하여 사용하면 된다. 🌟 */
+/* :root {
+	--img: url("img/sample.jpg");
+}
+
+div {
+    background: var(--img);
+} */
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* 🌟🌟 자바스크립트로 CSS 변수값 얻기 🌟🌟 */
+/* 예를 들어 앞의 예에서 루트 가상 클래스(:root)에 선언한 특정 변수의 값을 가져오는 스크립트 코드는 다음과 같다. */
+/* :root {
+	--hover: red;
+} */
+/* // 가상 클래스 요소 얻기
+let root = document.querySelector(':root'); 
+
+// 🌟🌟 window.getComputedStyle 메서드 🌟🌟를 이용하면, 해당 요소에 전역적으로 적용된 모든 형태의 style을 반환한다
+let variables = getComputedStyle(root); 
+
+//  🌟🌟 변수 값 얻기 getPropertyValue 🌟🌟
+variables.getPropertyValue('--hover'); */
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* 🚨 그러나 여기서 주의할 점은 getComputedStyle() 메서드로 스타일 속성을 가져올순 있지만, 이 속성을 바로 변경할 수 없다는 점이다. 🚨*/
+/* 인라인 스타일로 조작하는 수 밖에 없다 */
+/* <div style="--bg-img: url(https://p4.wallpaperbetter.com/wallpaper/757/701/315/beach-high-definition-1920x1080-nature-beaches-hd-art-wallpaper-preview.jpg)"></div>
+
+<button>배경 이미지 바꾸기</button> */
+
+/* 🌟🌟 자바스크립트로 요소에 접근하고 style.setProperty('css변수', '값') 메서드로 변수를 재설정해주면 된다. 🌟🌟 */
+/* 
+document.querySelector('button').addEventListener('click', (e) => {
+  const $div = document.querySelector('div');
+  $div.style.setProperty('--bg-img', 'url(https://cdn.imweb.me/upload/S201903225c9441f9db892/219f92a94fb2a.jpg)');
+}) */
